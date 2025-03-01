@@ -41,7 +41,7 @@ jobs:
       id: cache-dependencies
       uses: actions/cache@v4
       with:
-        path: deps/build/destdir
+        path: PrusaSlicer/deps/build/destdir
         key: dependencycache-${{ runner.os }}-${{ steps.dephash.outputs.dephash }}
 
     - name: Cache Download Files
@@ -49,7 +49,7 @@ jobs:
       id: cache-download
       uses: actions/cache@v4
       with:
-        path: deps/download
+        path: PrusaSlicer/deps/download
         key: downloadcache-${{ runner.os }}-${{ github.run_id }}
         restore-keys: |
           downloadcache-${{ runner.os }}
@@ -57,25 +57,24 @@ jobs:
     - name: Download GMP
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: |
-        mkdir -p deps/download/GMP
-        test -r deps/download/GMP/gmp-6.2.1.tar.bz2 || curl -o deps/download/GMP/gmp-6.2.1.tar.bz2 https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.bz2
+        mkdir -p PrusaSlicer/deps/download/GMP
+        test -r PrusaSlicer/deps/download/GMP/gmp-6.2.1.tar.bz2 || curl -o PrusaSlicer/deps/download/GMP/gmp-6.2.1.tar.bz2 https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.bz2
 
     - name: 2. Building dependencies
       if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: |
         export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-        cd deps
+        cd PrusaSlicer/deps
         mkdir -p build
         cd build
         cmake .. -DDEP_WX_GTK3=ON -DDEP_DOWNLOAD_DIR=$(pwd)/../download
         make
-        cd ../..
 
     - name: 3. Building PrusaSlicer
       run: |
         export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-        mkdir build
-        cd build
+        mkdir -p PrusaSlicer/build
+        cd PrusaSlicer/build
         cmake .. -DSLIC3R_STATIC=1 -DSLIC3R_GTK=3 -DSLIC3R_PCH=OFF -DCMAKE_PREFIX_PATH=$(pwd)/../deps/build/destdir/usr/local -DCMAKE_INSTALL_PREFIX=/usr
         make -j $(nproc)
         sudo make install
