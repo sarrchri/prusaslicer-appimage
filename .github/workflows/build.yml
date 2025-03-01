@@ -38,7 +38,9 @@ jobs:
 
     - name: Determine dependency hash
       id: dephash
-      run: echo dephash=$(git rev-parse HEAD:deps) >> $GITHUB_OUTPUT
+      run: |
+           cd PrusaSlicer 
+           echo dephash=$(git rev-parse HEAD:deps) >> $GITHUB_OUTPUT
 
     - name: Cache Dependencies
       id: cache-dependencies
