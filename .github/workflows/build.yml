@@ -11,6 +11,8 @@ on:
         description: 'Tag to build'
         required: false
         default: ''
+  schedule:
+    - cron: '35 17 */14 * 5'  # Every second Friday at 18:35 CET
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
