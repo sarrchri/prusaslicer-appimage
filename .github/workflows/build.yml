@@ -103,4 +103,4 @@ jobs:
     - name: Upload to GitHub Releases
       run: |
         gh release delete $VERSION -y || true
-        gh release create $VERSION *.AppImage* --notes "Release $VERSION"
+        gh release create $VERSION *.AppImage* --title "$VERSION"
