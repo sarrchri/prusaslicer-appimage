@@ -70,7 +70,19 @@ cp -r /usr/lib/x86_64-linux-gnu/gio/modules ./lib/x86_64-linux-gnu/gio/
 cp $(ldd ./lib/x86_64-linux-gnu/gio/modules/*.so |cut -d ">" -f 2 | cut -d " " -f 2 | sort | uniq) ./shared/lib/ 2>/dev/null || true # FIXME: Deploy dependencies properly
 
 # Copy DRI and glvnd, FIXME: Should happen automatically and ther dependencies shoud also be deployed
-cp -L /usr/lib/x86_64-linux-gnu/{libGLX_indirect.so.0,libGLX_mesa.so.0,libxcb-dri2.so.0,libxcb-dri3.so.0,libxcb-glx.so.0,libxcb-present.so.0,libxcb-sync.so.1,libxcb-xfixes.so.0,libxshmfence.so.1,libGLdispatch.so.0,libdrm.so.2,libgbm.so.1,libvulkan.so.1} ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libGLX_indirect.so.0 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libxcb-present.so.0 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libxcb-xfixes.so.0 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libxshmfence.so.1 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libGLdispatch.so.0 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libdrm.so.2 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libgbm.so.1 ./shared/lib/
+cp -L /usr/lib/x86_64-linux-gnu/libvulkan.so.1 ./shared/lib/
 cp -r /usr/share/glvnd   ./usr/share/ # FIXME: Shouldn't it be ./share/?
 cp -r /usr/lib/x86_64-linux-gnu/dri ./shared/lib/ # May need environment variable LIBGL_DRIVERS_PATH at runtime since '\$${ORIGIN}' in RPATH is wrong?
 cp $(ldd ./shared/lib/dri/*.so |cut -d ">" -f 2 | cut -d " " -f 2 | sort | uniq) ./shared/lib/ 2>/dev/null || true # FIXME: Deploy dependencies properly
