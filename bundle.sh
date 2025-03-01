@@ -7,7 +7,6 @@ ICON=/usr/resources/icons/PrusaSlicer.png
 
 export ARCH="$(uname -m)"
 export APPIMAGE_EXTRACT_AND_RUN=1
-export VERSION=2.9.0-rc1 # FIXME: Do not hardcode
 
 APPIMAGETOOL="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$ARCH.AppImage"
 UPINFO="gh-releases-zsync|$(echo $GITHUB_REPOSITORY | tr '/' '|')|continuous|*$ARCH.AppImage.zsync"
