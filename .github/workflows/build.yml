@@ -71,7 +71,7 @@ jobs:
         mkdir -p build
         cd build
         cmake .. -DDEP_WX_GTK3=ON -DDEP_DOWNLOAD_DIR=$(pwd)/../download
-        make
+        make -j $(nproc)
 
     - name: Build PrusaSlicer
       run: |
