@@ -1,12 +1,12 @@
 # PrusaSlicer.AppImage
 
-The [release notes](https://github.com/prusa3d/PrusaSlicer/releases/tag/version_2.8.1) for PrusaSlicer 2.8.1 state
+### Download
 
-> PrusaSlicer now depends on WebKit library, which greatly complicates its distribution. (...) The AppImage made sense when it could be used in the "bundle what you need, distribute a single file" way, but having to distribute several different AppImages and maintaining the required build infrastructure (and still worrying about what needs to be updated when some Linux distribution update is released) means burning time that we would much rather invest into actual work on PrusaSlicer.
+https://github.com/probonopd/PrusaSlicer.AppImage/releases/latest
 
-__tl;dr__: By using a static runtime and by bundling _all_ dependencies inside the AppImage, the stated goals can be achieved at the cost of a larger download size (although not as extreme as Flatpak where all of GNOME gets downloaded even on non-GNOME systems). A version for testing is linked below.
+### Background
 
-According to the [release notes](https://github.com/prusa3d/PrusaSlicer/releases/tag/version_2.9.0-alpha1) for PrusaSlicer 2.9.0-alpha1, Prusa is considering to move away from the AppImage format for Linux, and is anticipating that this change might not be welcomed by all users. According to the release notes, Prusa would want a PrusaSlicer AppImage to:
+According to the [release notes](https://github.com/prusa3d/PrusaSlicer/releases/tag/version_2.9.0-alpha1) for PrusaSlicer 2.9.0-alpha1, Prusa would want a PrusaSlicer AppImage to:
 
 * Bundle all necessary dependencies, including libraries such as glibc or webkit. - ✅ **DONE** by bundling _all_ dependencies of the application rather than _just the depencencies that cannot be reasonably assumed to be part of each target system_
 * Not require specific versions of system libraries, such as libfuse, to be present on the target system. - ✅ **DONE** by using a static AppImage runtime that does not use libfuse from the system, and bundling _all_ dependencies of the application
@@ -15,10 +15,6 @@ According to the [release notes](https://github.com/prusa3d/PrusaSlicer/releases
 * Not require building on older distributions for compatibility reasons. - ✅ **DONE** by bundling _all_ dependencies of the application
 * Provide a seamless user experience, including desktop integration and application updates. - (☑️) [Done by PrusaSlicer since 2.4](https://github.com/prusa3d/PrusaSlicer/blob/ae97d00c34258f85b98fb000c131162863424a04/doc/How%20to%20build%20-%20Linux%20et%20al.md?plain=1#L121). Alternatively, users can use an optional [desktop integration](https://github.com/AppImageCommunity/awesome-appimage?tab=readme-ov-file#desktop-integration) tool (but not desirable in all cases, see below)
 * Offer a sandboxing mechanism to control application permissions. - (☑️) **OPTIONAL** using a third party sandbox (but not desirable in all cases, see below)
-
-### Version for testing
-
-https://github.com/probonopd/PrusaSlicer.AppImage/releases/latest
 
 So far I have tested the AppImage on
 * Windows 11 with WSL2 in a Debian environment ✅
