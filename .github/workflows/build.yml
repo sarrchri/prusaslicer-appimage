@@ -81,7 +81,7 @@ jobs:
         find ../deps/build/destdir/usr/local
 
     - name: 4. Bundling
-      run: ./bundle.sh
+      run: sh -ex ./bundle.sh
 
     - name: 5. Upload to GitHub Releases
       run: |
