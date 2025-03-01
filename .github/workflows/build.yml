@@ -41,7 +41,8 @@ jobs:
           TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
         fi
         git checkout $TAG
-        echo "VERSION=$TAG" >> $GITHUB_ENV
+        CLEAN_TAG=$(echo $TAG|sed -e 's|version_||g')
+        echo "VERSION=$CLEAN_TAG" >> $GITHUB_ENV
 
     - name: ccache
       uses: hendrikmuhs/ccache-action@v1.2
