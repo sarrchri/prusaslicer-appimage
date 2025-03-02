@@ -58,7 +58,7 @@ unset LD_LIBRARY_PATH
 unset LD_PRELOAD' > ./.env
 # LOCPATH=${SHARUN_DIR}/lib/locale:${SHARUN_DIR}/share/locale # This makes PrusaSlicer fail
 
-# Copy additional libraries
+# Prepare sharun
 ln ./sharun ./AppRun
 ./sharun -g
 
