@@ -33,6 +33,7 @@ wget "$LIB4BN" -O ./lib4bin
 chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -e -s -k \
   /usr/bin/prusa-slicer \
+  /usr/bin/OCCTWrapper.so \
   /usr/lib/"$ARCH"-linux-gnu/libwebkit2gtk* \
   /usr/lib/"$ARCH"-linux-gnu/gdk-pixbuf-*/*/*/* \
   /usr/lib/"$ARCH"-linux-gnu/gio/modules/* \
@@ -42,7 +43,6 @@ xvfb-run -a -- ./lib4bin -p -v -e -s -k \
   /usr/lib/"$ARCH"-linux-gnu/dri/*
   
 rm -f ./lib4bin
-find /usr/bin /usr/lib -type f -name 'OCCTWrapper.so' -exec cp -vn {} ./bin \;
 
 # NixOS does not have /usr/lib/locale nor /usr/share/locale, which PrusaSlicer expects
 cp -r /usr/lib/locale ./lib/
