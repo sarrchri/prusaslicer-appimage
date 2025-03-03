@@ -45,7 +45,7 @@ xvfb-run -a -- ./lib4bin -p -v -e -s -k \
 rm -f ./lib4bin
 
 # Prusa installs this library in bin normally, so we will place a symlink just in case it is needed
-ln -s ../lib/OCCTWrapper.so ./bin/OCCTWrapper.so
+ln -s ../lib/bin/OCCTWrapper.so ./bin/OCCTWrapper.so
 
 # NixOS does not have /usr/lib/locale nor /usr/share/locale, which PrusaSlicer expects
 cp -r /usr/lib/locale ./lib/
