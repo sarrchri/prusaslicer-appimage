@@ -78,3 +78,10 @@ Luckily, it's not either-or: AppImage and Flatpak serve different purposes for d
 * https://github.com/prusa3d/PrusaSlicer/issues/12984 (libwebkit2gtk-4.0 is now bundled)
 * https://github.com/prusa3d/PrusaSlicer/issues/12835 (libwebkit2gtk-4.0 is now bundled)
 * https://github.com/prusa3d/PrusaSlicer/issues/12922 (_all_ libraries are now bundled)
+
+### Other builds
+
+__NOTE:__ In general, it is preferable to download applications only from their original software authors, not from random third parties (including myself).
+This being said, until Prusa releases official AppImage builds again, you need to decide for yourself whether you want to trust a third party build.
+
+* https://github.com/gneiss15/PrusaSlicer.AppImage
