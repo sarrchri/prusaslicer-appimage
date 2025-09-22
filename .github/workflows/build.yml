@@ -35,7 +35,7 @@ jobs:
 
     - name: Clone PrusaSlicer repository
       run: |
-        git clone --recursive https://github.com/prusa3d/PrusaSlicer.git
+        git clone --recursive https://github.com/sarrchri/PrusaSlicer.git
         cd PrusaSlicer
         git fetch --tags
         TAG=${{ github.event.inputs.tag }}
