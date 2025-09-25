@@ -25,7 +25,7 @@ jobs:
 
     - name: Clone the repository
       uses: actions/checkout@v4
-      
+
     - name: Prerequisities
       run: |
         sudo apt-get update
@@ -54,7 +54,7 @@ jobs:
     - name: Determine dependency hash
       id: dephash
       run: |
-           cd PrusaSlicer 
+           cd PrusaSlicer
            echo dephash=$(git rev-parse HEAD:deps) >> $GITHUB_OUTPUT
 
     - name: Cache Dependencies
@@ -93,6 +93,8 @@ jobs:
     - name: Build PrusaSlicer
       run: |
         export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+        sed -i '/^set(SLIC3R_VERSION/s/")/+testing")/g' PrusaSlicer/version.inc
+        sed -i '/^set(SLIC3R_BUILD_ID/s/+UNKNOWN/+testing/g' PrusaSlicer/version.inc
         mkdir -p PrusaSlicer/build
         cd PrusaSlicer/build
         cmake .. -DSLIC3R_STATIC=1 -DSLIC3R_GTK=3 -DSLIC3R_PCH=OFF -DCMAKE_PREFIX_PATH=$(pwd)/../deps/build/destdir/usr/local -DCMAKE_INSTALL_PREFIX=/usr
