@@ -34,7 +34,7 @@ chmod +x ./lib4bin
 xvfb-run -a -- ./lib4bin -p -v -e -s -k \
   /usr/bin/prusa-slicer \
   /usr/bin/OCCTWrapper.so \
-  /usr/lib/"$ARCH"-linux-gnu/libwebkit2gtk* \
+  /usr/lib/"$ARCH"-linux-gnu/libwebkit2gtk-4.1* \
   /usr/lib/"$ARCH"-linux-gnu/gdk-pixbuf-*/*/*/* \
   /usr/lib/"$ARCH"-linux-gnu/gio/modules/* \
   /usr/lib/"$ARCH"-linux-gnu/*libnss*.so* \
