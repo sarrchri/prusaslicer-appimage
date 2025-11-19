@@ -60,7 +60,8 @@ jobs:
 
     - name: Clone PrusaSlicer repository
       run: |
-        git clone --recursive https://github.com/sarrchri/PrusaSlicer.git
+        #git clone --recursive https://github.com/sarrchri/PrusaSlicer.git
+        git clone https://gitlab.archlinux.org/archlinux/packaging/packages/prusa-slicer.git PrusaSlicer
         cd PrusaSlicer
         git fetch --tags
         TAG=${{ github.event.inputs.tag }}
@@ -68,74 +69,74 @@ jobs:
           TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
         fi
         git checkout $TAG
-        CLEAN_TAG=$(echo $TAG|sed -e 's|version_||g')
-        echo "VERSION=$CLEAN_TAG" >> $GITHUB_ENV
+        #CLEAN_TAG=$(echo $TAG|sed -e 's|version_||g')
+        echo "VERSION=$TAG" >> $GITHUB_ENV
 
-    - name: ccache
-      uses: hendrikmuhs/ccache-action@v1.2
-      with:
-        key: ${{ runner.os }}
+   # - name: ccache
+   #   uses: hendrikmuhs/ccache-action@v1.2
+   #   with:
+   #     key: ${{ runner.os }}
 
-    - name: Determine dependency hash
-      id: dephash
-      run: |
-           cd PrusaSlicer
-           echo dephash=$(git rev-parse HEAD:deps) >> $GITHUB_OUTPUT
+   # - name: Determine dependency hash
+   #   id: dephash
+   #   run: |
+   #        cd PrusaSlicer
+   #        echo dephash=$(git rev-parse HEAD:deps) >> $GITHUB_OUTPUT
 
-    - name: Restore dependencies cache
-      id: restore-dependencies-cache
-      uses: actions/cache/restore@v4
-      with:
-        path: |
-          PrusaSlicer/deps/build/destdir
-        key: ${{ runner.os }}-${{ steps.dephash.outputs.dephash }}
+   # - name: Restore dependencies cache
+   #   id: restore-dependencies-cache
+   #   uses: actions/cache/restore@v4
+   #   with:
+   #     path: |
+   #       PrusaSlicer/deps/build/destdir
+   #     key: ${{ runner.os }}-${{ steps.dephash.outputs.dephash }}
 
-    - name: Populate download cache
-      if: steps.restore-dependencies-cache.outputs.cache-hit != 'true'
-      id: populate-download-cache
-      uses: actions/cache@v4
-      with:
-        path: PrusaSlicer/deps/download
-        key: ${{ runner.os }}-${{ github.run_id }}
-        restore-keys: |
-          ${{ runner.os }}
+   # - name: Populate download cache
+   #   if: steps.restore-dependencies-cache.outputs.cache-hit != 'true'
+   #   id: populate-download-cache
+   #   uses: actions/cache@v4
+   #   with:
+   #     path: PrusaSlicer/deps/download
+   #     key: ${{ runner.os }}-${{ github.run_id }}
+   #     restore-keys: |
+   #       ${{ runner.os }}
 
-    - name: Download GMP
-      if: steps.restore-dependencies-cache.outputs.cache-hit != 'true'
-      run: |
-        mkdir -p PrusaSlicer/deps/download/GMP
-        test -r PrusaSlicer/deps/download/GMP/gmp-6.2.1.tar.bz2 || curl -o PrusaSlicer/deps/download/GMP/gmp-6.2.1.tar.bz2 https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.bz2
+    #- name: Download GMP
+    #  if: steps.restore-dependencies-cache.outputs.cache-hit != 'true'
+    #  run: |
+    #    mkdir -p PrusaSlicer/deps/download/GMP
+    #    test -r PrusaSlicer/deps/download/GMP/gmp-6.2.1.tar.bz2 || curl -o PrusaSlicer/deps/download/GMP/gmp-6.2.1.tar.bz2 https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.bz2
 
-    - name: Build dependencies
-      if: steps.restore-dependencies-cache.outputs.cache-hit != 'true'
-      run: |
-        export CMAKE_POLICY_VERSION_MINIMUM=3.5
-        export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-        cd PrusaSlicer/deps
-        mkdir -p build
-        cd build
-        cmake .. -DDEP_WX_GTK3=ON -DDEP_DOWNLOAD_DIR=$(pwd)/../download
-        make -j $(nproc)
+   # - name: Build dependencies
+   #   if: steps.restore-dependencies-cache.outputs.cache-hit != 'true'
+   #   run: |
+   #     export CMAKE_POLICY_VERSION_MINIMUM=3.5
+   #     export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+   #     cd PrusaSlicer/deps
+   #     mkdir -p build
+   #     cd build
+   #     cmake .. -DDEP_WX_GTK3=ON -DDEP_DOWNLOAD_DIR=$(pwd)/../download
+   #     make -j $(nproc)
 
-    - name: Save built dependencies
-      id: save-dependencies-cache
-      uses: actions/cache/save@v4
-      with:
-        path: |
-          PrusaSlicer/deps/build/destdir
-        key: ${{ steps.restore-dependencies-cache.outputs.cache-primary-key }}
+   # - name: Save built dependencies
+   #   id: save-dependencies-cache
+   #   uses: actions/cache/save@v4
+   #   with:
+   #     path: |
+   #       PrusaSlicer/deps/build/destdir
+   #     key: ${{ steps.restore-dependencies-cache.outputs.cache-primary-key }}
 
-    - name: Build PrusaSlicer
-      run: |
-        export CMAKE_POLICY_VERSION_MINIMUM=3.5
-        export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
-        sed -i '/^set(SLIC3R_VERSION/s/")/+testing")/g' PrusaSlicer/version.inc
-        mkdir -p PrusaSlicer/build
-        cd PrusaSlicer/build
-        cmake .. -DSLIC3R_STATIC=1 -DSLIC3R_GTK=3 -DSLIC3R_PCH=OFF -DCMAKE_PREFIX_PATH=$(pwd)/../deps/build/destdir/usr/local -DCMAKE_INSTALL_PREFIX=/usr
-        make -j $(nproc)
-        sudo make install
-        find ../deps/build/destdir/usr/local
+   # - name: Build PrusaSlicer
+   #   run: |
+   #     export CMAKE_POLICY_VERSION_MINIMUM=3.5
+   #     export PATH="/usr/lib/ccache:/usr/local/opt/ccache/libexec:$PATH"
+   #     sed -i '/^set(SLIC3R_VERSION/s/")/+testing")/g' PrusaSlicer/version.inc
+   #     mkdir -p PrusaSlicer/build
+   #     cd PrusaSlicer/build
+   #     cmake .. -DSLIC3R_STATIC=1 -DSLIC3R_GTK=3 -DSLIC3R_PCH=OFF -DCMAKE_PREFIX_PATH=$(pwd)/../deps/build/destdir/usr/local -DCMAKE_INSTALL_PREFIX=/usr
+    #    make -j $(nproc)
+    #    sudo make install
+    #    find ../deps/build/destdir/usr/local
 
     - name: Bundle
       run: sh -ex ./bundle.sh
